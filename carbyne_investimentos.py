@@ -92,7 +92,7 @@ if paginaselecionada == 'Fundos de Pensão':
     fig = px.bar(x = quantidade_fundacao,
                 y = fundacoes,
                 orientation='h', title="Quantitativo de Fundações",
-                labels={'x':'Quantidade','y':'Fundação'})
+                labels={'x':'Quantidade de Fundações','y':'Fundação'})
     st.plotly_chart(fig)
 
 elif paginaselecionada == 'Base 1':     

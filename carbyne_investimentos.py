@@ -7,7 +7,6 @@ import streamlit as st
 import matplotlib.pyplot as plt
  
 # Importando a base de dados a ser analisada 
-@st.cache
 df = pd.read_excel('BaseDados ATUALIZADA.xlsx', sheet_name=1)
 df.drop(['Unnamed: 0'], axis =1, inplace = True)
 df.dropna(how = 'all', inplace = True)

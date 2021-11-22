@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 # Importando a base de dados a ser analisada 
 @st.cache
 def load_df():
-    df = df = pd.read_excel('/Users/linomartins/Downloads/BaseDados ATUALIZADA.xlsx', sheet_name=1)
+    df = df = pd.read_excel('BaseDados ATUALIZADA.xlsx', sheet_name=1)
     df.drop(['Unnamed: 0'], axis =1, inplace = True)
     df.dropna(how = 'all', inplace = True)
     return df 

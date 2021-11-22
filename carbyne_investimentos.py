@@ -41,7 +41,8 @@ paginaselecionada = st.sidebar.selectbox('Selecione a base que deseja ter inform
 if paginaselecionada == 'Fundos de Pensão':
 
     #Configuracoes página 1 - Fundos de Pensão
-    st.title('Análise Exploratória de Dados - Carbyne Investimentos')
+    st.title('Análise Exploratória de Dados')
+    st.title('- Carbyne Investimentos')
     st.write('Análise de dados referentes aos fundos de pensão presentes na base consolidada')
     st.markdown('''
     __*Dicionário dos dados*__

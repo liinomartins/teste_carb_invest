@@ -83,6 +83,16 @@ if paginaselecionada == 'Fundos de Pensão':
                 mostra_qntd_linhas(df_fundacao)
             else:
                 mostra_qntd_linhas(df)
+     
+    #Configuração do Gráfico de quantitativo de fundações 
+    st.title('Visualização Gráfica')
+    quantidade_fundacao = df.groupby(['Fundação']).Fundação.count().sort_values()
+    fundacoes = df['Fundação'].unique()
+    fig = px.bar(x = quantidade_fundacao,
+                y = fundacoes,
+                orientation='h', title="Quantitativo de Fundações",
+                labels={'x':'Quantidade','y':'Fundação'})
+    st.plotly_chart(fig)
 
 elif paginaselecionada == 'Base 1':     
     st.title('Base 1')

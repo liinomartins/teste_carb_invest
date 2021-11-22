@@ -3,4 +3,5 @@ pandas
 seaborn
 streamlit
 openpyxl
-plotly.express
+matplotlib
+plotly

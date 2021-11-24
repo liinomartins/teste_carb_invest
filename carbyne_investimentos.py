@@ -95,7 +95,7 @@ if paginaselecionada == 'Fundos de Pensão':
     #gestores.append('Todos')
     #gestor = st.selectbox('Selecione um Gestor', options = gestores)
 
-    if fundacao == ' ':
+    if fundacao != 'Todas':
         df = df.query('Fundação == @fundacao')
         mostra_qntd_linhas(df)
     else:

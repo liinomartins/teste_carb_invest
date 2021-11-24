@@ -29,7 +29,9 @@ st.sidebar.image(image, use_column_width = True)
 st.sidebar.title('Menu')
 paginaselecionada = st.sidebar.selectbox('Selecione a base que deseja ter informações',['Fundos de Pensão','Base 1', 'Base 2'])
 st.sidebar.write('  ')
-st.sidebar.write('Essas informações estão restritas a equipe da Carbyne Investimentos')
+#st.sidebar.write('Essas informações estão restritas a equipe da Carbyne Investimentos')
+st.sidebar.markdown("<h3 style='color:#D3D3D3;'>*Essas informações estão restritas a equipe da Carbyne Investimentos</h1>", unsafe_allow_html=True)
+
 
 # Configurações de cada página do menu 
 if paginaselecionada == 'Fundos de Pensão':

@@ -14,7 +14,7 @@ df = pd.read_excel('BaseDados ATUALIZADA.xlsx', sheet_name=1)
 df.drop(['Unnamed: 0'], axis =1, inplace = True)
 df.dropna(how = 'all', inplace = True)
 colunas = df.columns
-fundacao = df.Fundação.unique().tolist()
+#fundacao = df.Fundação.unique().tolist()
 df['Fundo'].astype(str)
 quantidade_fundacao = df.groupby(['Fundação']).Fundação.count().sort_values()
 
@@ -131,9 +131,11 @@ if paginaselecionada == 'Fundos de Pensão':
     st.plotly_chart(fig1)
     
     #Gráfico de box_plot 
+    fundo = list(df['Fundo'].unique())
+    fundo.append('Todas')
     fundo = df['Fundo'].unique()
     box_x = st.selectbox("Variáveis do Blox_plot", options=df.columns, index=df.columns.get_loc("Valor"))
-    box_cat = st.selectbox("Variáveis Categóricas", options = df.columns)
+    box_cat = st.selectbox("Variáveis Categóricas", options = fundo)
     box_fig = px.box(df, x=box_cat, y=box_x, title="Box plot of  " + box_x + "  e  " + box_cat, template="plotly_white", category_orders=fundacoes)
     st.write(box_fig)
 

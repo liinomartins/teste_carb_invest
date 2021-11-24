@@ -129,6 +129,13 @@ if paginaselecionada == 'Fundos de Pensão':
     fig1 = px.pie(df, values= quantidade_classificacao, names=classificacao, 
                 title='Representação da Classficação por Fundo') 
     st.plotly_chart(fig1)
+    
+    #Gráfico de box_plot 
+    fundo = df['Fundo'].unique()
+    box_x = st.selectbox("Boxplot variable", options=df.columns, index=df.columns.get_loc("Valor"))
+    box_cat = st.selectbox("Categorical variable", options = df.columns)
+    box_fig = px.box(df, x=box_cat, y=box_x, title="Box plot of " + box_x, template="plotly_white", category_orders=fundacoes)
+    st.write(box_fig)
 
     #Configurações do wordcloud
     stop_words = ['em','sao','ao','de','da','do','para','c','kg','un','ml',

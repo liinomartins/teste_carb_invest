@@ -119,7 +119,7 @@ if paginaselecionada == 'Fundos de Pensão':
     # Gráfico de Barras Horizontal 
     fig = px.bar(x = quantidade_fundacao,
                 y = fundacoes,
-                orientation='h', title="Quantitativo de Fundações",
+                orientation='h', title="Quantitativo da Fundação: " + fundacoes,
                 labels={'x':'Quantidade','y':'Fundação'})
     st.plotly_chart(fig)
     

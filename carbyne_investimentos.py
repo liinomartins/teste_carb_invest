@@ -127,7 +127,7 @@ if paginaselecionada == 'Fundos de Pensão':
     quantidade_classificacao = df.groupby(['Classificação']).Classificação.count().sort_values()
     classificacao = df['Classificação'].unique()
     fig1 = px.pie(df, values= quantidade_classificacao, names=classificacao, 
-                title='Representação da Classficação por Fundo') 
+                title='Representação da Classificação por Fundo') 
     st.plotly_chart(fig1)
     
     #Gráfico de box_plot 

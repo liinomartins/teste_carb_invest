@@ -131,10 +131,8 @@ if paginaselecionada == 'Fundos de Pensão':
     st.plotly_chart(fig1)
     
     #Gráfico de box_plot 
-    fundo = list(df['Fundo'].unique())
-    fundo.append('Todas')
     box_x = st.selectbox("Variáveis do Blox_plot", options=df.columns, index=df.columns.get_loc("Valor"))
-    box_cat = st.selectbox("Variáveis Categóricas", options = fundo)
+    box_cat = st.selectbox("Variáveis Categóricas", options = df.columns)
     box_fig = px.box(df, x=box_cat, y=box_x, title="Box plot of  " + box_x + "  e  " + box_cat, template="plotly_white", category_orders=fundacoes)
     st.write(box_fig)
 

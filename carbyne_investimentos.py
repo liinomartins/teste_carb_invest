@@ -14,7 +14,6 @@ df = pd.read_excel('BaseDados ATUALIZADA.xlsx', sheet_name=1)
 df.drop(['Unnamed: 0'], axis =1, inplace = True)
 df.dropna(how = 'all', inplace = True)
 colunas = df.columns
-#fundacao = df.Fundação.unique().tolist()
 df['Fundo'].astype(str)
 quantidade_fundacao = df.groupby(['Fundação']).Fundação.count().sort_values()
 
@@ -27,11 +26,9 @@ def mostra_qntd_linhas(df):
 image = ('carbyne.png')
 st.sidebar.image(image, use_column_width = True)
 st.sidebar.title('Menu')
-paginaselecionada = st.sidebar.selectbox('Selecione a base que deseja ter informações',['Fundos de Pensão','Base 1', 'Base 2'])
+paginaselecionada = st.sidebar.selectbox('Selecione a base que deseja ter informações',['Fundos de Pensão','Cadastro de Fundo', 'Base 2'])
 st.sidebar.write('  ')
 st.sidebar.write('Essas informações estão restritas a equipe da Carbyne Investimentos')
-#st.sidebar.markdown("<h3 style='color:#D3D3D3;'>*Essas informações estão restritas a equipe da Carbyne Investimentos</h1>", unsafe_allow_html=True)
-
 
 # Configurações de cada página do menu 
 if paginaselecionada == 'Fundos de Pensão':
@@ -86,7 +83,7 @@ if paginaselecionada == 'Fundos de Pensão':
 #                mostra_qntd_linhas(df)
 
     #Configuracoes do filtro da aplicacao 
-    st.markdown('Filtro para a tabela')
+    st.markdown('Filtro para a tabela e gráficos')
 
     #Filtro coluna fundacao 
     fundacoes = list(df['Fundação'].unique())
@@ -97,7 +94,7 @@ if paginaselecionada == 'Fundos de Pensão':
     #gestores.append('Todos')
     #gestor = st.selectbox('Selecione um Gestor', options = gestores)
 
-    if fundacao != 'Todas':
+    if fundacao !='Todas':
         df = df.query('Fundação == @fundacao')
         mostra_qntd_linhas(df)
     else:
@@ -131,11 +128,13 @@ if paginaselecionada == 'Fundos de Pensão':
     fig1 = px.pie(df, values= quantidade_classificacao, names=classificacao, 
                 title='Representação da Classificação por Fundo') 
     st.plotly_chart(fig1)
-    
+
     #Gráfico de box_plot 
+    #fundos = list(df['Fundo'].unique())
+    #valor = df['Valor']
     box_x = st.selectbox("Variáveis do Blox_plot", options=df.columns, index=df.columns.get_loc("Valor"))
     box_cat = st.selectbox("Variáveis Categóricas", options = df.columns)
-    box_fig = px.box(df, x=box_cat, y=box_x, title="Box plot of  " + box_x + "  e  " + box_cat, template="plotly_white", category_orders=fundacoes)
+    box_fig = px.box(df, x=box_cat, y=box_x, title="Box plot of " + box_cat, template="plotly_white", category_orders=fundacoes)
     st.write(box_fig)
 
     #Configurações do wordcloud
@@ -155,6 +154,31 @@ if paginaselecionada == 'Fundos de Pensão':
         ax.imshow(wordcloud, interpolation='bilinear')
         ax.set_axis_off()
         st.pyplot(fig,ax)
+    
+    #Histograma 
+    st.write('  ')
+    st.write('Histograma')
+    hist_x = st.selectbox('Variáveis do Histograma', options = df.columns, index = df.columns.get_loc('Valor'))
+    hist_bins = st.slider(label = 'Histogram bins', min_value = 10, max_value = 50, value = 25, step = 1)
+    hist_fig = px.histogram(df, x = hist_x, nbins = hist_bins)
+    hist_fig = px.histogram(df, x=hist_x, nbins=hist_bins, title="Histogram of " + hist_x,
+                        template="plotly_white")
+    st.write(hist_fig)
+
+    #Estatísticas da Base (colunas específicas)
+    st.write('  ')
+    st.write('Estatísticas das colunas CNPJ, Valor e %AuM')
+    st.write(df.describe())
+
+    #download da tabela filtrada
+    st.title('Download da Tabela Filtrada')
+    def convert_df(df_new):
+        return df_new.to_csv().encode('utf-8')
+    
+    csv = convert_df(df)
+
+    st.download_button(label = 'Download da base filtrada como CSV', data = csv, file_name = 'fundos_de_pensao.csv', mime = 'text/csv')
+
 
     #Criar uma wordcloud
 #    st.write('Word Cloud dos Fundos da Base')
@@ -179,17 +203,35 @@ if paginaselecionada == 'Fundos de Pensão':
 #    st.plotly_chart(fig1)	
 
 
+elif paginaselecionada == 'Cadastro de Fundo':     
+    st.title('Cadastro de Fundos')
+    st.markdown(''' Formulário de Cadastro de novos Fundos no Banco de Dados da Carbyne Investimentos   ''')  
+    fundacoes_selecao = list(df['Fundação'].unique())
+    gestor_selecao = list(df['Gestor'].unique())
+    classificacao_selecao = list(df['Classificação'].unique())
+    ja_falado_selecao = list(df['Já Falamos'].unique())
+    plano_selecao = list(df['Plano'].unique())
 
-elif paginaselecionada == 'Base 1':     
-    st.title('Base 1')
-    st.markdown('''
-    Página em Construção....
-    
-    Aguarde... ficará pronta em breve 
+    #Formulário de cadastro de clientes   
+    with st.form(key='form'):
+        fundacao_form = st.selectbox('Selecione a Fundação', options = fundacoes_selecao)
+        gestor_form = st.selectbox('Selecione o Gestor', options = gestor_selecao)
+        fundo_form = st.text_input('Insira o nome do Fundo')
+        cnpj_form = st.text_input('Insira o CNPJ do Fundo')
+        segmento_form = st.selectbox('Selecione o Segmento',['Renda Fixa','Renda Variável', 'Estruturado', 'Imobiliário', 'Exterior','Operações com Participantes'])
+        estrategia_form = st.selectbox('Selecione a Estratégia',['Títulos Públicos - Indexados Selic','Títulos Públicos - Indexados Inflação','Títulos Públicos - Indexados Pré-Fixados','Ações de Empresas Brasileiras','Ações de empresas internacionais negociadas na Bolsa local','Participações em empresas de capital fechado',
+        'Multimercado','Cotas Representativas de Imóveis','Títulos Públicos - Indexados Taxa Básica de Juros','Ações de empresas internacionais','Participações em empresas de capital fechado','Empréstimos'])
+        veiculo_form = st.selectbox('Selecione o Veículo',['Ativo', 'Fundo de Investimento','Fundo de Investimento em cotas de fundos de invstimentos','Fundo de Investimentos em Participações','Fundo de Investimentos em Direitos Creditórios','Fundo de Investimentos Imobiliário', 'Fundo de Índice'])
+        classificacao_form = st.selectbox('Selecione a Classificação', options = classificacao_selecao)
+        valor_form = st.number_input('Insira o Valor do Fundo')
+        aum_form = st.number_input('Insira o %AuM')
+        ddn= st.date_input('Data da Coleta da Informação')
+        #uf = st.selectbox('Selecione o Estado',['AC','AL','AP','AM','BA','CE','DF','ES','GO','MA','MT','MS','MG','PA','PB','PR','PE','PI','RJ','RN','RS','RO','RR','SC','SP','SE','TO'])
+        #Configuração do botão de envio
+        botao = st.form_submit_button(label = "Cadastrar Fundo")
+        if botao:
+            st.success('Fundo cadastrado no banco de dados com sucesso')
 
-    - Carbyne Investimentos
-    
-    ''')     
 
 elif paginaselecionada == 'Base 2': 
     st.title('Base 2')    

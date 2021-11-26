@@ -134,7 +134,7 @@ if paginaselecionada == 'Fundos de Pensão':
     #valor = df['Valor']
     box_x = st.selectbox("Variáveis do Blox_plot", options=df.columns, index=df.columns.get_loc("Valor"))
     box_cat = st.selectbox("Variáveis Categóricas", options = df.columns)
-    box_fig = px.box(df, x=box_cat, y=box_x, title="Box plot of " + box_cat, template="plotly_white", category_orders=fundacoes)
+    box_fig = px.box(df, x=box_cat, y=box_x, title="Box plot da " + box_cat, template="plotly_white", category_orders=fundacoes)
     st.write(box_fig)
 
     #Configurações do wordcloud

@@ -28,7 +28,7 @@ st.sidebar.image(image, use_column_width = True)
 st.sidebar.title('Menu')
 paginaselecionada = st.sidebar.selectbox('Selecione a base que deseja ter informações',['Fundos de Pensão','Cadastro de Fundo', 'Base 2'])
 st.sidebar.write('  ')
-st.sidebar.write('Essas informações estão restritas a equipe da Carbyne Investimentos')
+st.sidebar.write('*Essas informações estão restritas a equipe da Carbyne Investimentos')
 
 # Configurações de cada página do menu 
 if paginaselecionada == 'Fundos de Pensão':
